@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.pojo">
+
+        <!--查询数据库全表-->
+        <select id="listCategory" resultType="Category">
+            SELECT * FROM goods
+        </select>
+
+        <!--根据id查询-->
+        <select id="findById" parameterType="int"
+                resultType="com.pojo.Category">
+            SELECT * FROM goods WHERE gid = #{gid}
+        </select>
+
+        <!--根据id删除数据-->
+        <delete id="deleteById" parameterType="int">
+            DELETE FROM goods WHERE gid=#{gid}
+        </delete>
+
+        <!--根据id修改一行数据    -->
+        <update id="updateById" parameterType="Category">
+            UPDATE goods
+            SET gname=#{gname},gkind=#{gkind},gpraice=#{gpraice},gsize=#{gsize}
+            WHERE gid=#{gid}
+        </update>
+
+        <!--模糊查询-->
+        <select id="findByKind" parameterType="java.lang.String"
+                resultType="com.pojo.Category">
+            SELECT * FROM goods WHERE gkind LIKE #{gkind} ORDER BY gid ASC;
+        </select>
+
+        <!--添加数据-->
+        <insert id="addGoods" parameterType="Category">
+            INSERT INTO goods VALUES(#{gid},#{gname},#{gpraice},#{gsize},#{gkind})
+        </insert>
+
+        <!--分页查询-->
+        <select id="pageQuery" parameterType="java.util.Map"
+                resultType="com.pojo.Category">
+            SELECT * FROM goods LIMIT (#{limit},#{offset})
+        </select>
+    </mapper>
